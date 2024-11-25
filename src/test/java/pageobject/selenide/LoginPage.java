@@ -64,8 +64,8 @@ public class LoginPage extends TestBase {
         $(passwordInput).sendKeys(password);
     }
 
-    public static boolean validateErrorMessageIsDisplayed() {
-        return $(errorMessageLabel).isDisplayed();
+    public static void validateErrorMessageIsDisplayed() {
+        $(errorMessageLabel).shouldBe(Condition.visible);
     }
 
     public static void validateErrorMessageText(String expectedText) {

@@ -13,6 +13,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Browsers.*;
+import static com.codeborne.selenide.Selenide.closeWindow;
 import static com.codeborne.selenide.Selenide.open;
 
 public class TestBase {
@@ -21,10 +22,12 @@ public class TestBase {
 
     @BeforeMethod
     public void methodSetup() {
-        String browser = System.getProperty("browser", "chrome");
-
-        Configuration.browser = browser;
+        Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.pageLoadTimeout = 5000;
         open(baseUrl);
+    }
+    @AfterMethod
+    public void methodTeardown(){
+        closeWindow();
     }
 }
