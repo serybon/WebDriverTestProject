@@ -1,18 +1,27 @@
 package pageobject.selenide;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.Collections;
+import java.util.List;
+
+@Epic("Сatalog functionality")
+@Feature("Duck sorting")
 public class CatalogTest extends TestBase {
 
     @Test
-    public void sortDucksByName() {
-        SoftAssert softAssert = new SoftAssert();
+    @Description("Method compares the list of products after clicking the button")
+    public void sortByNameFullComparison() {
         CatalogPage.clickLinkRubberDuckNavigationPanel();
-        CatalogPage.clickSoftByNameButton();
-
-        softAssert.assertEquals(CatalogPage.getTitleOfFirstItemFromCollection(), "Blue Duck");
-        softAssert.assertEquals(CatalogPage.getTitleOfLastItemFromCollection(), "Yellow Duck");
-        softAssert.assertAll();
+        List<String> listBefore = CatalogPage.getListOfTitles();
+        Collections.sort(listBefore);
+        CatalogPage.clickSortByNameButton();
+        List<String> listAfterClickSortByNameButton = CatalogPage.getListOfTitles();
+        Assert.assertTrue(CatalogPage.CompareLists(listBefore, listAfterClickSortByNameButton));
     }
 }

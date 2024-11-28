@@ -1,6 +1,7 @@
 package pageobject.selenide;
 
 import com.codeborne.selenide.Condition;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import ru.yandex.qatools.htmlelements.element.Select;
@@ -38,6 +39,7 @@ public class LoginPage extends TestBase {
     //
 
     //Registration methods
+    @Step("Enters data into all input fields to register a new account.")
     public static void inputDataInAllFields(String firstName, String lastName, String address, String postcode, String city, String email, String phone, String password, String password_confirmed) {
         $(firstNameInput).sendKeys(firstName);
         $(lastNameInput).sendKeys(lastName);
@@ -50,54 +52,65 @@ public class LoginPage extends TestBase {
         $(confirmedPasswordInput).sendKeys(password_confirmed);
     }
 
+    @Step("Selects a country from the drop-down list.")
     public static void selectCountryDropdown(String country) {
         Select dropdown = new Select($(selectCountryDropdown));
         dropdown.selectByVisibleText(country);
     }
 
-    //
+    @Step("Enter the data in the input field for email.")
     public static void typeEmail(String email) {
         $(emailInput).sendKeys(email);
     }
 
+    @Step("Enter the data in the input field for password.")
     public static void typePassword(String password) {
         $(passwordInput).sendKeys(password);
     }
 
+    @Step("Validates that error message is displayed.")
     public static void validateErrorMessageIsDisplayed() {
         $(errorMessageLabel).shouldBe(Condition.visible);
     }
 
+    @Step("Validates that expected error message text matches expectation")
     public static void validateErrorMessageText(String expectedText) {
         $(errorMessageLabel).shouldHave(Condition.text(expectedText));
     }
 
+    @Step("Validates that success message is displayed.")
     public static void validateSuccessMessageIsDisplayed() {
         $(successMessageLabel).shouldBe(Condition.visible);
     }
 
+    @Step("Validates that success message text matches expectation")
     public static void validateSuccessMessageText(String expectedText) {
         $(successMessageLabel).shouldHave(Condition.text(expectedText));
     }
 
+    @Step("Click login button.")
     public static void clickLoginButton() {
         $(loginButton).click();
     }
 
+    @Step()
     public static void clickLinkForNewCustomers() {
         $(linkForNewCustomers).click();
     }
 
+    @Step("Clicks on the link for new customers.")
     public static void clickCreateAccountButton() {
         $(createAccountButton).click();
     }
 
+    @Step("Trying to log in with username and password.")
     public static void loginWithCredentials(String email, String password) {
         LoginPage.typeEmail(email);
         LoginPage.typePassword(password);
         LoginPage.clickLoginButton();
     }
 
+    @Step("Write the generated email and password to a file on disk.")
     public static void WriteToFile(String email, String password) {
         try {
             FileWriter fileWriter = new FileWriter("E:\\IntelliJ_source\\registrationCredentials.txt", true);
@@ -108,6 +121,7 @@ public class LoginPage extends TestBase {
         }
     }
 
+    @Step("Generate new random email.")
     public static String generateEmail() {
         String randomNumber = String.valueOf((int) (Math.floor(Math.random() * 10000)));
         String newEmail = "mail" + randomNumber + "@mail.com";
@@ -115,11 +129,13 @@ public class LoginPage extends TestBase {
 
     }
 
+    @Step("Receive the entered e-mail address in the field.")
     public static String getEnteredEmail() {
         System.out.println($(emailRegInput).getText() + "ПОЧТА");
         return $(emailRegInput).toString();
     }
 
+    @Step("Receive the entered password in the field.")
     public static String getEnteredPassword(WebDriver driver) {
         System.out.println($(passwordRegInput).getText() + "ПАРОЛЬ");
         return ($(passwordRegInput)).getText();

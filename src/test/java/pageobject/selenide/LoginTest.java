@@ -1,17 +1,27 @@
 package pageobject.selenide;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+@Epic("Authorization and Authentication")
+@Feature("UI Login form")
 public class LoginTest extends TestBase {
 
+    @Description("This test attempts to login with correct email and incorrect password and validates error message appears.")
     @Test
     public void loginWithCorrectEmailAndWrongPassword() {
-        LoginPage.loginWithCredentials("mail5514@mail.com", "111111");
+        Allure.step("Open the website", () -> {
+            LoginPage.loginWithCredentials("mail5514@mail.com", "111111");
+        });
         LoginPage.validateErrorMessageIsDisplayed();
         LoginPage.validateErrorMessageText("Wrong password or the account is disabled, or does not exist");
     }
 
+    @Description("This test tries to create a new account and validates successful message.")
     @Test
     public void successfulRegistration() {
         LoginPage.clickLinkForNewCustomers();
